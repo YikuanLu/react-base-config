@@ -1,6 +1,7 @@
 import Login from '@/pages/login'
 import Home from '@/pages/home'
 import Demo from '@/pages/demo'
+import DemoChild from '@/pages/demoChlid'
 import Count from '@/pages/count'
 import ErrorPage from '@/pages/errorPage'
 /**
@@ -26,11 +27,12 @@ const routes = [
   },
   {
     path: '/demo',
+    component: Demo,
     routes: [
       {
         path: '/demo/:id',
         exact: true,
-        component: Demo
+        component: DemoChild
       }
     ]
   },

@@ -8,15 +8,37 @@ const createRouteItem = (routeItem) => (
     path={routeItem.path}
     exact={!!routeItem.exact}
     key={routeItem.path}
-    render={(props) => <routeItem.component {...props} />}
+    render={(props) => (
+      <routeItem.component {...props} routes={routeItem.routes} />
+    )}
   />
 )
 
-const createSwitch = (routeItem) => (
-  <Route path={routeItem.path} key={routeItem.path}>
-    <Switch>{routeItem.routes.map((item) => renderRoutes(item))}</Switch>
-  </Route>
-)
+const createSwitch = (routeItem) => {
+  return (
+    <Route
+      path={routeItem.path}
+      key={routeItem.path}
+      render={(props) => {
+        return routeItem.component ? (
+          <routeItem.component {...props}>
+            <Switch>
+              {routeItem.routes.map((item) => {
+                return createRouteItem(item)
+              })}
+            </Switch>
+          </routeItem.component>
+        ) : (
+          <Switch>
+            {routeItem.routes.map((item) => {
+              return createRouteItem(item)
+            })}
+          </Switch>
+        )
+      }}
+    />
+  )
+}
 
 // 递归路由树 🌲
 function renderRoutes(routeItem) {
